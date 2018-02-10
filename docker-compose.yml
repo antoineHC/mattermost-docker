@@ -51,3 +51,4 @@ services:
     # Uncomment for SSL
     # environment:
     #  - MATTERMOST_ENABLE_SSL=true
+

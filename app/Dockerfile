@@ -31,13 +31,13 @@ RUN mkdir -p /mattermost/data \
 
 # Get ready for production
 RUN addgroup -g ${PGID} mattermost \
-    && adduser -D -u ${PUID} -G mattermost mattermost \
-    && chown -R mattermost: /mattermost \
+    && adduser -D -u ${PUID} -G mattermost -h /mattermost -D mattermost \
+    && chown -R mattermost:mattermost /mattermost /config.json.save \
     && apk update \
     && apk del curl \
     && rm -rf /tmp/* 
 
-USER mattermost
+USER mattermost 
 
 # Configure entrypoint and command
 COPY entrypoint.sh /
@@ -48,5 +48,5 @@ CMD ["platform"]
 # Expose port 8000 of the container
 EXPOSE 8000
 
-# Use a volume for the data directory
-VOLUME /mattermost/data
+# Declare volumes for mount point directories
+VOLUME ["/mattermost/data", "/mattermost/config", "/mattermost/logs"]
