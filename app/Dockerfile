@@ -2,7 +2,7 @@ FROM alpine:3.6
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
-ENV MM_VERSION=4.6.1
+ENV MM_VERSION=4.7.2
 
 # Build argument to set Mattermost edition
 ARG edition=enterprise
@@ -32,10 +32,7 @@ RUN mkdir -p /mattermost/data \
 # Get ready for production
 RUN addgroup -g ${PGID} mattermost \
     && adduser -D -u ${PUID} -G mattermost -h /mattermost -D mattermost \
-    && chown -R mattermost:mattermost /mattermost /config.json.save \
-    && apk update \
-    && apk del curl \
-    && rm -rf /tmp/* 
+    && chown -R mattermost:mattermost /mattermost /config.json.save 
 
 USER mattermost 
 
@@ -48,5 +45,8 @@ CMD ["platform"]
 # Expose port 8000 of the container
 EXPOSE 8000
 
+#Healthcheck to make sure container is ready 
+HEALTHCHECK CMD curl --fail http://localhost:8000 || exit 1
+
 # Declare volumes for mount point directories
-VOLUME ["/mattermost/data", "/mattermost/config", "/mattermost/logs"]
+VOLUME ["/mattermost/data", "/mattermost/logs", "/mattermost/config", "/mattermost/client", "/mattermost/plugins", "/tmp"]

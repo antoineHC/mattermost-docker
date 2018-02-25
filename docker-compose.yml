@@ -5,6 +5,7 @@ services:
   db:
     build: db
     restart: unless-stopped
+    read_only: true
     volumes:
       - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
       - /etc/localtime:/etc/localtime:ro
@@ -21,10 +22,13 @@ services:
   app:
     build:
       context: app
-      # comment out 2 following lines for team edition
-      # args:
-      #   - edition=team
+      args:
+        # comment out following line for team edition
+        # - edition=team
+        - PUID=2000
+        - PGID=2000
     restart: unless-stopped
+    read_only: true
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
       - ./volumes/app/mattermost/data:/mattermost/data:rw
@@ -44,6 +48,7 @@ services:
       - "80:80"
       - "443:443"
     restart: unless-stopped
+    read_only: true
     volumes:
       # This directory must have cert files if you want to enable SSL
       - ./volumes/web/cert:/cert:ro

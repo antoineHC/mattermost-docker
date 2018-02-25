@@ -86,7 +86,9 @@ them you may generate a self-signed SSL certificate.
 ### Starting/Stopping Docker
 
 #### Start
+Make sure the UID and GID in app/Dockerfile are compliant with your operating system
 ```
+mkdir -p ./volumes/app/mattermost/{data,logs,config}
 docker-compose start
 ```
 
@@ -175,4 +177,4 @@ For the server configurations, see [prod-ubuntu.rst] of Mattermost.
 
 [docker]: http://docs.docker.com/engine/installation/
 [docker-compose]: https://docs.docker.com/compose/install/
-[prod-ubuntu.rst]: https://docs.mattermost.com/install/install-ubuntu-1404.html
+[prod-ubuntu.rst]: https://docs.mattermost.com/install/install-ubuntu-1604.html
