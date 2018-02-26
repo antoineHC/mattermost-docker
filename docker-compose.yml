@@ -5,7 +5,7 @@ services:
   db:
     build: db
     restart: unless-stopped
-    read_only: true
+    #read_only: true
     volumes:
       - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
       - /etc/localtime:/etc/localtime:ro
@@ -45,8 +45,8 @@ services:
   web:
     build: web
     ports:
-      - "80:80"
-      - "443:443"
+      - "4480:80"
+      - "4443:443"
     restart: unless-stopped
     read_only: true
     volumes:
